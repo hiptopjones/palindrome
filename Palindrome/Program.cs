@@ -15,23 +15,29 @@ namespace Palindrome
 
             for (UInt64 i = start; i <= end; i++)
             {
-                Console.WriteLine("{0}: {1}", i, CalculatePalindrome(i));
+                UInt64 palindrome;
+                UInt64 iterations = 0;
+                CalculatePalindrome(i, ref iterations, out palindrome);
+                Console.WriteLine("{0}: {1} (x{2})", i, palindrome, iterations);
             }
 
             Console.WriteLine("Hit a key to continue...");
             Console.ReadKey();
         }
 
-        static UInt64 CalculatePalindrome(UInt64 i)
+        static void CalculatePalindrome(UInt64 i, ref UInt64 iterations, out UInt64 palindrome)
         {
+            iterations++;
+
             UInt64 j = Reverse(i);
             UInt64 k = i + j;
             if (!IsPalindrome(k))
             {
-                return CalculatePalindrome(k);
+                CalculatePalindrome(k, ref iterations, out palindrome);
+                return;
             }
 
-            return k;
+            palindrome = k;
         }
 
         static bool IsPalindrome(UInt64 k)
